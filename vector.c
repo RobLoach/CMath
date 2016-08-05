@@ -250,6 +250,12 @@ void m4x4_shear2d(mat4x4 *inout, float x, float y) {
 }
 
 
+/*
+ * r = rotation 
+ * sx,sy = scale X/Y
+ * ox,oy = origin X/Y
+ * kx,ky = affects scale 
+*/
 void m4x4_newTransform2d(mat4x4 *out, float x, float y, float r, float sx, float sy,
                          float ox, float oy, float kx, float ky) {
 
