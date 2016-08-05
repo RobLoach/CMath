@@ -1,4 +1,6 @@
 /*
+#   clove
+#
 #   Copyright (C) 2016 Muresan Vlad
 #
 #   This project is free software; you can redistribute it and/or modify it
@@ -9,6 +11,10 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 typedef struct {
   float x;
