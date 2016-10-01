@@ -1,5 +1,5 @@
 /*
-#   clove
+#   CMath
 #
 #   Copyright (C) 2016 Muresan Vlad
 #
