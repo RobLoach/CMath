@@ -1,5 +1,5 @@
 /*
-#   clove
+#   CMath
 #
 #   Copyright (C) 2016 Muresan Vlad
 #
@@ -77,7 +77,6 @@ void m4x4_set   (mat4x4 *out,
                  float m20, float m21, float m22, float m23,
                  float m30, float m31, float m32, float m33);
 
-
 typedef struct {
   float m[3][3];
 } mat3x3;
@@ -94,15 +93,3 @@ void m4x4_newRotation(mat4x4 *out, float a, vec3 axis);
 void m4x4_newTransform2d(mat4x4 *out, float x, float y, float r, float sx, float sy,
                          float ox, float oy, float kx, float ky);
 void m4x4_mulM4x4(mat4x4 *out, mat4x4 const* a, mat4x4 const* b);
-void m4x4_mulV4(vec4 *out, mat4x4 const* m, vec4 const* v);
-void m4x4_scale(mat4x4 *inout, float x, float y, float z);
-void m4x4_translate(mat4x4 *inout, float x, float y, float z);
-void m4x4_rotateZ(mat4x4 *inout, float a);
-void m4x4_shear2d(mat4x4 *inout, float x, float y);
-
-void m3x3_newTransform2d(mat3x3 *out, float x, float y, float r, float sx, float sy,
-                         float ox, float oy, float kx, float ky, float w, float h);
-
-// Assumes that v is a 2d point (homogeneous coord == 1).
-// This allows much faster multiplication
-void m3x3_mulV2(vec2 *out, mat3x3 const* m, vec2 const* v);
