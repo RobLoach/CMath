@@ -256,18 +256,41 @@ void m4x4_newOrtho(mat4x4* projectionMatrix, float left, float right, float bott
  * Sources:
  * https://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
  */
-void m4x4_newPerspective(mat4x4* projectionMatrix, float vertical_field_of_view_in_deg, float aspect_ratio, float near_view_distance, float far_view_distance) {
-  float fovy_in_rad = vertical_field_of_view_in_deg / 180 * M_PI;
-  float f = 1.0f / tanf(fovy_in_rad / 2.0f);
-  float ar = aspect_ratio;
-  float nd = near_view_distance, fd = far_view_distance;
+void m4x4_newPerspective(mat4x4* projectionMatrix, float fov, float ratio, float zNear, float zFar) {
+  float ymax, xmax;
+  ymax = zNear * tanf((float)(fov * M_PI / 360.0f));
+  xmax = ymax * ratio;
 
-  m4x4_set(projectionMatrix,
-           f / ar,           0,                0,                0,
-           0,                f,                0,                0,
-           0,                0,               (fd+nd)/(nd-fd),  (2*fd*nd)/(nd-fd),
-           0,                0,               -1,                0
-           );
+  float left = -xmax;
+  float right = xmax;
+  float bottom = -ymax;
+  float top = ymax;
+
+  float temp, temp2, temp3, temp4;
+  temp = 2.0f * zNear;
+  temp2 = right - left;
+  temp3 = top - bottom;
+  temp4 = zFar - zNear;
+
+  projectionMatrix->m[0][0] = temp / temp2;
+  projectionMatrix->m[0][1] = 0.0f;
+  projectionMatrix->m[0][2] = 0.0f;
+  projectionMatrix->m[0][3] = 0.0f;
+
+  projectionMatrix->m[1][0] = 0.0f;
+  projectionMatrix->m[1][1] = temp / temp3;
+  projectionMatrix->m[1][2] = 0.0f;
+  projectionMatrix->m[1][3] = 0.0f;
+
+  projectionMatrix->m[2][0] = (right + left) / temp2;
+  projectionMatrix->m[2][1] = (top + bottom) / temp3;
+  projectionMatrix->m[2][2] = (-zFar - zNear) / temp4;
+  projectionMatrix->m[2][3] = -1.0f;
+
+  projectionMatrix->m[3][0] = 0.0f;
+  projectionMatrix->m[3][1] = 0.0f;
+  projectionMatrix->m[3][2] = (-temp * zFar) / temp4;
+  projectionMatrix->m[3][3] = 1.0f;
 }
 /*
  * Builds a transformation matrix for a camera that looks from `from` towards
@@ -303,16 +326,16 @@ void m4x4_newPerspective(mat4x4* projectionMatrix, float vertical_field_of_view_
  * axis. The dot product is just a more compact way to write the actual
  * multiplications.
  */
-mat4x4 m4x4_newLookAt(vec3 pos, vec3 target, vec3 up) {
+void m4x4_newLookAt(mat4x4* in, vec3 pos, vec3 target, vec3 up) {
   vec3 z_a = v3_norm(v3_sub(target, pos));
   vec3 x_a = v3_norm(v3_cross(up,    z_a));
   vec3 y_a = v3_cross(z_a, x_a);
 
-  return m4x4_new(
-        x_a.x,           y_a.x,          z_a.x,          0,
-        x_a.y,           y_a.y,           z_a.y,        0,
-        x_a.z,           y_a.z,           z_a.z,        0,
-        -v3_dot(x_a, pos),  -v3_dot(y_a, pos),  -v3_dot(z_a, pos),  1);
+  return m4x4_set(in,
+                  x_a.x,           y_a.x,          z_a.x,          0,
+                  x_a.y,           y_a.y,           z_a.y,        0,
+                  x_a.z,           y_a.z,           z_a.z,        0,
+                  -v3_dot(x_a, pos),  -v3_dot(y_a, pos),  -v3_dot(z_a, pos),  1);
 }
 
 
