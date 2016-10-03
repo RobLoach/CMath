@@ -100,8 +100,36 @@ float v3_length(vec3 v)                    {
   return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
 }
 
+/*
+ * The dot product in simple terms is : A float that represents how much the two vectors
+ * are moving together based on angle.
+ * If A * B = 0 => A,B are perpendicular ' _|_ ' (90 degree)
+ * If A * B = 1 => A,B are colliniar ' = '
+ *
+ * Another way of representing the dot product is:
+ * "That is to say, the dot product of two vectors will be equal to the cosine of
+ * the angle between the vectors, times the lengths of each of the vectors."
+ * A · B = |A| * |B| * cos(Θ)
+ *
+ * Source:
+ * http://www.mvps.org/DirectX/articles/math/dot/index.htm
+ */
 float v3_dot(vec3 a, vec3 b)          {
   return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+
+/*
+ * Returns a third vector which is perpendicular on A, B
+ *
+ * Another way of representing the cross product is:
+ * |A| * |B| * sin(Θ)
+ */
+vec3 v3_cross(vec3 a, vec3 b) {
+  return (vec3){
+      a.y * b.z - a.z * b.y,
+          a.z * b.x - a.x * b.z,
+          a.x * b.y - a.y * b.x
+    };
 }
 
 vec3 v3_norm(vec3 v) {
@@ -116,13 +144,6 @@ vec3 v3_proj(vec3 v, vec3 onto) {
   return v3_muls(onto, v3_dot(v, onto) / v3_dot(onto, onto));
 }
 
-vec3 v3_cross(vec3 a, vec3 b) {
-  return (vec3){
-      a.y * b.z - a.z * b.y,
-          a.z * b.x - a.x * b.z,
-          a.x * b.y - a.y * b.x
-    };
-}
 
 float v3_angle_between(vec3 a, vec3 b) {
   return acosf( v3_dot(a, b) / (v3_length(a) * v3_length(b)) );
@@ -242,11 +263,11 @@ void m4x4_newPerspective(mat4x4* projectionMatrix, float vertical_field_of_view_
   float nd = near_view_distance, fd = far_view_distance;
 
   m4x4_set(projectionMatrix,
-        f / ar,           0,                0,                0,
-        0,                f,                0,                0,
-        0,                0,               (fd+nd)/(nd-fd),  (2*fd*nd)/(nd-fd),
-        0,                0,               -1,                0
-        );
+           f / ar,           0,                0,                0,
+           0,                f,                0,                0,
+           0,                0,               (fd+nd)/(nd-fd),  (2*fd*nd)/(nd-fd),
+           0,                0,               -1,                0
+           );
 }
 /*
  * Builds a transformation matrix for a camera that looks from `from` towards
