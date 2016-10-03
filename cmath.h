@@ -83,12 +83,14 @@ typedef struct {
 
 void m4x4_newIdentity(mat4x4 *out);
 void m4x4_newOrtho(mat4x4 *projectionMatrix, float left, float right, float bottom, float top, float zNear, float zFar);
-void m4x4_newPerspective(mat4x4* projectionMatrix, float fov, float ratio, float zNear, float zFar);
+void m4x4_newPerspective(mat4x4* projectionMatrix, float vertical_field_of_view_in_deg, float aspect_ratio, float near_view_distance, float far_view_distance);
+mat4x4 m4x4_newLookAt(vec3 pos, vec3 target, vec3 up);
 void m4x4_newScaling(mat4x4 *out, float x, float y, float z);
 void m4x4_newTranslation(mat4x4 *out, float x, float y, float z);
 void m4x4_newRotationX(mat4x4 *out, float a);
 void m4x4_newRotationY(mat4x4 *out, float a);
 void m4x4_newRotationZ(mat4x4 *out, float a);
+void m4x4_newRotationScale(mat4x4 *out, float a, vec3 axis, float s_x, float s_y, float s_z);
 void m4x4_newRotation(mat4x4 *out, float a, vec3 axis);
 void m4x4_newTransform2d(mat4x4 *out, float x, float y, float r, float sx, float sy,
                          float ox, float oy, float kx, float ky);
