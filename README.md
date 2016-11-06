@@ -1,7 +1,7 @@
 CMath
 =====
 
-CMath is a easy to use math library made specially for game development. 
+CMath is an easy to use math library written in C for game development. 
 
 Features
 ========
