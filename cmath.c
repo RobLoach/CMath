@@ -9,8 +9,6 @@
 
 #include "cmath.h"
 #include <tgmath.h>
-#include "util.h"
-
 
 /*
 * 2d vectors
@@ -71,6 +69,13 @@ float v2_dot(vec2 a, vec2 b)          {
 */
 vec3 vec3_new(float x, float y, float z) {
   return (vec3){x,y,z};
+}
+vec3 vec3_newv(vec3 a) {
+  vec3 b;
+  a.x = b.x;
+  a.y = b.y;
+  a.z = b.z;
+  return b;
 }
 vec3 v3_add(vec3 a, vec3 b)          {
   return (vec3){ a.x + b.x, a.y + b.y, a.z + b.z };

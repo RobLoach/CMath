@@ -30,6 +30,7 @@ typedef struct {
 } vec3;
 
 vec3 vec3_new(float x, float y, float z);
+vec3 vec3_newv(vec3 a);
 vec3 v3_add   (vec3 a, vec3 b);
 vec3 v3_adds  (vec3 a, float s);
 vec3 v3_sub   (vec3 a, vec3 b);
@@ -82,7 +83,7 @@ typedef struct {
 } mat3x3;
 
 void m4x4_newIdentity(mat4x4 *out);
-void m4x4_newOrtho(mat4x4 *projectionMatrix, float left, float right, float bottom, float top, float zNear, float zFar);
+void m4x4_newOrtho(mat4x4 *projectionMatrix, float left, float right, float bottom, float top, float back, float front);
 void m4x4_newPerspective(mat4x4* projectionMatrix, float fov, float ratio, float zNear, float zFar);
 void m4x4_newLookAt(mat4x4* in, vec3 pos, vec3 target, vec3 up);
 void m4x4_newScaling(mat4x4 *out, float x, float y, float z);
